@@ -3,6 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mobileapp/assets.dart';
+import 'package:mobileapp/create_class.dart';
+import 'package:mobileapp/delete_class.dart';
+import 'package:mobileapp/take_attendance.dart';
 
 class DashboardScreen extends StatefulWidget {
   @override
@@ -76,12 +79,39 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
             ListTile(
               title: Text('Take Attendance'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => TakeAttendanceScreen(),
+                  ),
+                );
+              },
             ),
             ListTile(
               title: Text('Create Class'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CreateClassForm(),
+                  ),
+                );
+              },
             ),
             ListTile(
               title: Text('Delete Class'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => DeleteClassScreen(),
+                  ),
+                );
+              },
             ),
           ],
         ),
@@ -142,6 +172,26 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
         ),
       ),
+      floatingActionButton: Align(
+        alignment: Alignment.bottomCenter,
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 50.0),
+          child: FloatingActionButton.extended(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => TakeAttendanceScreen(),
+                ),
+              );
+            },
+            label: Text('Start Taking Attendance'),
+            icon: Icon(Icons.assignment),
+            backgroundColor: Colors.green,
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }

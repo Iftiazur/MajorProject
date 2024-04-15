@@ -31,6 +31,14 @@ dependencies:
   flutter:
     sdk: flutter
   intl: ^0.17.0
+  shared_preferences: ^2.0.12
+  path_provider: ^2.1.2
+  csv: ^5.1.1
+  file_picker: ^6.1.1
+  excel: ^4.0.2
+  camera: ^0.10.5+9
+  image_picker: ^1.0.7
+
 
 
 
