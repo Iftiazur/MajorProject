@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobileapp/camera.dart';
+import 'package:trial/camera.dart';
 
 class ClassDetailsScreen extends StatelessWidget {
   final List<dynamic> classInfo;

@@ -21,15 +21,11 @@ class _CreateClassFormState extends State<CreateClassForm> {
 
   Future<File> get _localFile async {
     final directory = await getApplicationDocumentsDirectory();
-    final file = File('${directory.path}/class_data/class_data.csv');
-
-    // Check if the file exists
-    if (!(await file.exists())) {
-      // If the file doesn't exist, create it
-      await file.create(recursive: true);
+    final folder = Directory('${directory.path}/class_data');
+    if (!await folder.exists()) {
+      await folder.create(recursive: true);
     }
-
-    return file;
+    return File('${folder.path}/class_data.csv');
   }
 
   Future<List<List<dynamic>>> _readDataFromFile() async {

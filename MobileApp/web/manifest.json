@@ -1,11 +1,11 @@
 {
-    "name": "mobileapp",
-    "short_name": "mobileapp",
+    "name": "attendance_app",
+    "short_name": "attendance_app",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "App for major project",
+    "description": "App for attendance using machine learning",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

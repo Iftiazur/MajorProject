@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
-import 'package:mobileapp/class_details_screen.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:trial/class_details_screen.dart';
 
 class TakeAttendanceScreen extends StatefulWidget {
   @override

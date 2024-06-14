@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:mobileapp/assets.dart';
-import 'package:mobileapp/create_class.dart';
-import 'package:mobileapp/delete_class.dart';
-import 'package:mobileapp/take_attendance.dart';
+import 'package:trial/assets.dart';
+import 'package:trial/create_class.dart';
+import 'package:trial/delete_class.dart';
+import 'package:trial/take_attendance.dart';
 
 class DashboardScreen extends StatefulWidget {
   @override

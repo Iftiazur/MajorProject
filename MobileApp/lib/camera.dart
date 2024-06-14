@@ -1,9 +1,30 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
+import 'package:trial/attendance_screen.dart ';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Take Picture Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: TakePictureScreen(),
+    );
+  }
+}
 
 class TakePictureScreen extends StatefulWidget {
   @override
@@ -63,6 +84,17 @@ class _TakePictureScreenState extends State<TakePictureScreen> {
     }
   }
 
+  Future<void> _selectImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        _imagePath = pickedFile.path;
+      });
+      _displayPicture();
+    }
+  }
+
   void _displayPicture() {
     Navigator.push(
       context,
@@ -92,19 +124,76 @@ class _TakePictureScreenState extends State<TakePictureScreen> {
           }
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _takePicture,
-        child: Icon(Icons.camera),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          FloatingActionButton(
+            onPressed: _selectImage,
+            child: Icon(Icons.image),
+          ),
+          FloatingActionButton(
+            onPressed: _takePicture,
+            child: Icon(Icons.camera),
+          ),
+        ],
       ),
     );
   }
 }
 
-class DisplayPictureScreen extends StatelessWidget {
+class DisplayPictureScreen extends StatefulWidget {
   final String imagePath;
 
   const DisplayPictureScreen({Key? key, required this.imagePath})
       : super(key: key);
+
+  @override
+  _DisplayPictureScreenState createState() => _DisplayPictureScreenState();
+}
+
+class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
+  List<String> recognizedFaces = [];
+  int numFacesDetected = 0;
+
+  Future<void> _sendImageToAPI(String imagePath) async {
+    String apiUrl = 'https://native-key-raven.ngrok-free.app/detect_faces';
+
+    // Prepare the image file
+    var request = http.MultipartRequest('POST', Uri.parse(apiUrl));
+    request.files.add(await http.MultipartFile.fromPath('image', imagePath));
+
+    // Send POST request to Flask API
+    var streamedResponse = await request.send();
+    var response = await http.Response.fromStream(streamedResponse);
+
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body);
+      setState(() {
+        recognizedFaces = List<String>.from(data['recognized_faces']);
+        numFacesDetected = data['num_faces_detected'];
+      });
+    } else {
+      print('Failed to recognize faces. Status code: ${response.statusCode}');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _sendImageToAPI(widget.imagePath);
+  }
+
+  // Empty function to handle the Next button press
+  void _onNextPressed() {
+    // Pass recognized faces list to AttendanceScreen
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            AttendanceScreen(recognizedFaces: recognizedFaces),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -114,35 +203,32 @@ class DisplayPictureScreen extends StatelessWidget {
         children: [
           Expanded(
             child: Image.file(
-              File(imagePath),
+              File(widget.imagePath),
               fit: BoxFit.cover,
             ),
           ),
           ElevatedButton(
-            onPressed: () {
-              // Navigate to the next screen or perform desired action
-            },
+            onPressed: _onNextPressed,
             child: Text('Next'),
+          ),
+          SizedBox(height: 20),
+          Text(
+            'Number of Faces Detected: $numFacesDetected',
+            style: TextStyle(fontSize: 18),
+          ),
+          SizedBox(height: 10),
+          Expanded(
+            child: ListView.builder(
+              itemCount: recognizedFaces.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text('${recognizedFaces[index]}'),
+                );
+              },
+            ),
           ),
         ],
       ),
-    );
-  }
-}
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Take Picture Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: TakePictureScreen(),
     );
   }
 }
