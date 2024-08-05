@@ -55,5 +55,18 @@ This project focuses on the development of **Camera Based Attendance App for Mul
 - ## Creating an API for the model
     The `Flask` directory contains the code for the creation of api for the model. This api shall help in the communication between the app and the model and thus as long as the api is running the app can provide results. This also makes changing or updating the model easier.
 
-- ### Creating the mobile App.
-    The mobile app is created using Flutter the code files of which are present in 
+- ### Creating the android app.
+    The mobile app is created using Flutter the code files of which are present in the `MobileApp` directory. The app is then exported as an apk file named `attendanceAppTrial.apk` which can be found in the root of this repo
+    ![Homescreen](assets/1.png) 
+    ![Options](assets/2.png) 
+    ![Register Class](assets/3.png)
+    ![Saved Class Data](assets/4.png) 
+    ![Take attendance](assets/5.png) 
+    ![Class Details](assets/6.png) 
+    ![Picture preview](assets/7.png) 
+    ![Selection of excel file to update](assets/8.png) 
+
+ 
+
+
+     
