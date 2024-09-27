@@ -36,10 +36,10 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCtHbKBz31vha3rO-TP0DKDwyjOukyXZT0',
-    appId: '1:368657559497:android:39dccb927fa1e4dec5c218',
-    messagingSenderId: '368657559497',
-    projectId: 'attendanceapp4majorproject',
-    storageBucket: 'attendanceapp4majorproject.appspot.com',
+    apiKey: ,
+    appId: ,
+    messagingSenderId: ,
+    projectId: ,
+    storageBucket: ,
   );
 }
